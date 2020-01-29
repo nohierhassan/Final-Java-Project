@@ -60,6 +60,8 @@ public class replayGame {
             while(rs.next())
                 {
                 System.out.println(rs.getInt("num"));
+                System.out.println(rs.getString("fname"));
+                System.out.println(rs.getString("sname"));
                 order.add(rs.getInt("num")) ;
                 counter++;
                

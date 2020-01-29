@@ -152,9 +152,10 @@ public class GameBoard {
             String password = "Java123$";
             
             Connection con = DriverManager.getConnection(url, user, password);
-            PreparedStatement stmt =con.prepareStatement("insert into test (num,type) values (?,?)");
+            PreparedStatement stmt =con.prepareStatement("insert into test (num,fname,sname) values (?,?,?)");
             stmt.setInt(1, num);
-            stmt.setString(2, "non");
+            stmt.setString(2,Welcome.firstPlayerName);
+            stmt.setString(3,Welcome.secondPlayerName);
             int rs = stmt.executeUpdate();
             con.close();
             

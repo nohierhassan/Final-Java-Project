@@ -1,5 +1,10 @@
 package javafxapplication10;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -17,6 +22,7 @@ public  class ReplayMenu extends AnchorPane {
     protected final Menu exitMenu;
     protected Scene scene;
     public ReplayMenu(Stage stage) {
+       
 
         menuBar = new MenuBar();
         replayMenu = new Menu();
@@ -28,7 +34,7 @@ public  class ReplayMenu extends AnchorPane {
         setPrefWidth(600.0);
 
         menuBar.setPrefHeight(29.0);
-        menuBar.setPrefWidth(582.0);
+        menuBar.setPrefWidth(582.0); 
 
         replayMenu.setId("replayMenu");
         replayMenu.setMnemonicParsing(false);
@@ -58,4 +64,36 @@ public  class ReplayMenu extends AnchorPane {
         stage.show();
 
     }
+//    protected void checkDB()
+//    {
+//         try
+//        {
+//            String url = "jdbc:mysql://localhost:3306/southwind";
+//            String user = "non";
+//            String password = "Java123$";
+//            String query = "select * from test";
+//            Connection con = DriverManager.getConnection(url, user, password);
+//            Statement st = con.createStatement();
+//            ResultSet rs = st.executeQuery(query);
+//            int counter = 0;
+//            
+//            while(rs.next())
+//                {
+//                System.out.println(rs.getInt("num"));
+//                order.add(rs.getInt("num")) ;
+//                counter++;
+//               
+//                }
+//            st.close();
+//            con.close();
+//            
+//        }
+//        
+//        catch(SQLException ex)
+//        {
+//                ex.printStackTrace();
+//                
+//        }
+//        
+//    }
 }

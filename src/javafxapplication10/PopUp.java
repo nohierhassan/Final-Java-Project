@@ -21,6 +21,7 @@ public class PopUp {
     private Button replayButton;
     private Button continueButton;
     private Scene scene;
+    protected static int gameNumber;
     
     private VBox layout;
     
@@ -57,7 +58,7 @@ public class PopUp {
             
             @Override
             public void handle(ActionEvent arg0) {
-                System.out.println("replay is pressed!");
+                //System.out.println("replay is pressed!");
                new  ReplayMenu(stage);
             }
         });
@@ -66,6 +67,7 @@ public class PopUp {
 
             @Override
             public void handle(ActionEvent arg0) {
+                gameNumber++;
                 new GameBoard(stage);
             }
         });

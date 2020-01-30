@@ -23,7 +23,7 @@ public  class ReplayMenu extends AnchorPane {
     protected Scene scene;
     public ReplayMenu(Stage stage) {
        
-
+        System.out.println(checkDB());
         menuBar = new MenuBar();
         replayMenu = new Menu();
         item0 = new MenuItem();
@@ -35,7 +35,7 @@ public  class ReplayMenu extends AnchorPane {
 
         menuBar.setPrefHeight(29.0);
         menuBar.setPrefWidth(582.0); 
-
+        
         replayMenu.setId("replayMenu");
         replayMenu.setMnemonicParsing(false);
         replayMenu.setText("Replay ");
@@ -64,36 +64,42 @@ public  class ReplayMenu extends AnchorPane {
         stage.show();
 
     }
-//    protected void checkDB()
-//    {
-//         try
-//        {
-//            String url = "jdbc:mysql://localhost:3306/southwind";
-//            String user = "non";
-//            String password = "Java123$";
-//            String query = "select * from test";
-//            Connection con = DriverManager.getConnection(url, user, password);
-//            Statement st = con.createStatement();
-//            ResultSet rs = st.executeQuery(query);
-//            int counter = 0;
-//            
-//            while(rs.next())
-//                {
-//                System.out.println(rs.getInt("num"));
-//                order.add(rs.getInt("num")) ;
-//                counter++;
-//               
-//                }
-//            st.close();
-//            con.close();
-//            
-//        }
-//        
-//        catch(SQLException ex)
-//        {
-//                ex.printStackTrace();
-//                
-//        }
-//        
-//    }
+    protected int checkDB()
+    {
+        int retval = -1;
+        
+         try
+        {
+            String url = "jdbc:mysql://localhost:3306/southwind";
+            String user = "non";
+            String password = "Java123$";
+            String query = "select count(distinct(gamecount)) as gameCount from test";
+            Connection con = DriverManager.getConnection(url, user, password);
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+           
+            
+            while(rs.next())
+                {
+                   retval = rs.getInt("gameCount");
+                
+               
+                }
+            
+            st.close();
+            con.close();
+            
+        }
+        
+        catch(SQLException ex)
+        {
+                ex.printStackTrace();
+                
+        }
+         finally
+         {
+             return retval;
+         }
+        
+    }
 }

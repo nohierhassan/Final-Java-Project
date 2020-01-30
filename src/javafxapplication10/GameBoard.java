@@ -26,6 +26,7 @@ public class GameBoard {
     private int counter = 0;
     private Stage stage;
     private Scene scene;
+    private int count = 0;
    
     
     public GameBoard(Stage stage) {
@@ -152,10 +153,12 @@ public class GameBoard {
             String password = "Java123$";
             
             Connection con = DriverManager.getConnection(url, user, password);
-            PreparedStatement stmt =con.prepareStatement("insert into test (num,fname,sname) values (?,?,?)");
+            PreparedStatement stmt =con.prepareStatement("insert into test (num,fname,gamecount) values (?,?,?)");
             stmt.setInt(1, num);
             stmt.setString(2,Welcome.firstPlayerName);
-            stmt.setString(3,Welcome.secondPlayerName);
+            stmt.setInt(3,PopUp.gameNumber);
+            
+            
             int rs = stmt.executeUpdate();
             con.close();
             

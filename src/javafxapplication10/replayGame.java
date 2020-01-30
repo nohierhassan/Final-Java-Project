@@ -59,9 +59,10 @@ public class replayGame {
             
             while(rs.next())
                 {
-                System.out.println(rs.getInt("num"));
-                System.out.println(rs.getString("fname"));
-                System.out.println(rs.getString("sname"));
+//                System.out.println("the order is "+rs.getInt("num"));
+////                System.out.println(rs.getString("fname"));
+////                System.out.println(rs.getString("sname"));
+//                System.out.println("the count is"+rs.getInt("gamecount"));
                 order.add(rs.getInt("num")) ;
                 counter++;
                
@@ -141,6 +142,7 @@ public class replayGame {
             
             @Override
             public void handle(ActionEvent arg0) {
+                PopUp.gameNumber++;
                new GameBoard((stage));
             }
         });

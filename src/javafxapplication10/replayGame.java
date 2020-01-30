@@ -43,31 +43,26 @@ public class replayGame {
     private int inOrder;
     
     
-    public replayGame(Stage stage)
+    public replayGame(Stage stage, int gameNumber)
     {
         
         try
-        {
-            String url = "jdbc:mysql://localhost:3306/southwind";
+        { String url = "jdbc:mysql://localhost:3306/southwind";
             String user = "non";
             String password = "Java123$";
-            String query = "select * from test";
-            Connection con = DriverManager.getConnection(url, user, password);
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            int counter = 0;
+            System.out.println(gameNumber);
             
+            Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement stmt =con.prepareStatement("select num from games where gameorder= ?");
+            stmt.setInt(1, gameNumber);
+            ResultSet rs = stmt.executeQuery();
+     
             while(rs.next())
                 {
-//                System.out.println("the order is "+rs.getInt("num"));
-////                System.out.println(rs.getString("fname"));
-////                System.out.println(rs.getString("sname"));
-//                System.out.println("the count is"+rs.getInt("gamecount"));
-                order.add(rs.getInt("num")) ;
-                counter++;
-               
+                    order.add(rs.getInt("num"));
+           
                 }
-            st.close();
+
             con.close();
             
         }
@@ -143,7 +138,7 @@ public class replayGame {
             @Override
             public void handle(ActionEvent arg0) {
                 PopUp.gameNumber++;
-               new GameBoard((stage));
+               Welcome.welcomePlayers(stage);
             }
         });
         exitButton.setOnAction(new EventHandler<ActionEvent>() {

@@ -4,6 +4,10 @@
  * and open the template in the editor.
  */
 package javafxapplication10;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -67,8 +71,9 @@ public class PopUp {
 
             @Override
             public void handle(ActionEvent arg0) {
-                gameNumber++;
-                new GameBoard(stage);
+                
+                PopUp.gameNumber++;
+                Welcome.welcomePlayers(stage);
             }
         });
     }
@@ -77,4 +82,6 @@ public class PopUp {
     public void setMessage(String passedMessage) {
         message.setText(passedMessage);
     }
+    
+   
 }

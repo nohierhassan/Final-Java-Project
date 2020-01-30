@@ -2,6 +2,7 @@ package javafxapplication10;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -21,15 +22,16 @@ public  class ReplayMenu extends AnchorPane {
 
     protected final MenuBar menuBar;
     protected final Menu replayMenu;
-    ArrayList<MenuItem> games = new ArrayList<>(); 
-     ArrayList<String> names = new ArrayList<>(); 
+     Queue<MenuItem> games = new LinkedList<>();
+     Queue<String> fplayers = new LinkedList<>();
+      Queue<String> splayers = new LinkedList<>();
     //protected final MenuItem item0;
     protected final Menu exitMenu;
     Stage stage;
     protected Scene scene;
     public ReplayMenu(Stage stage) {
        this.stage = stage;
-        System.out.println(checkDB());
+        addNames();
         setOptions(checkDB());
         menuBar = new MenuBar();
         replayMenu = new Menu();
@@ -81,18 +83,16 @@ public  class ReplayMenu extends AnchorPane {
             String url = "jdbc:mysql://localhost:3306/southwind";
             String user = "non";
             String password = "Java123$";
-            String query1 = "select count(distinct(gamecount)) as gameCount from test";
+            String query1 = "select count(distinct(gameorder)) as gameorder from games";
             Connection con = DriverManager.getConnection(url, user, password);
             Statement st1 = con.createStatement();
             ResultSet rs1 = st1.executeQuery(query1);
-//            String query2 = "select count(distinct(fname)) from test";
-//            Statement st2 = con.createStatement();
-//            ResultSet rs2 = st2.executeQuery(query2);
+            
            
             
             while(rs1.next())
                 {
-                   retval = rs1.getInt("gameCount");
+                   retval = rs1.getInt("gameorder");
             
                  
                 }
@@ -122,19 +122,58 @@ public  class ReplayMenu extends AnchorPane {
     }
      protected void addOptions(Menu menu)
     {
+        int i=0;
         for(MenuItem item : games)
         {
-           item.setId("item0");
+            
+           item.setId(Integer.toString(i));
            item.setMnemonicParsing(false);
-           item.setText("None");
+           item.setText(fplayers.remove() +" vs "+ splayers.remove() );
            item.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
-                 new replayGame((stage));
+                
+                 new replayGame((stage),Integer.parseInt(item.getId()) );
                 
             }
         });
            menu.getItems().add(item);
+           i++;
+           
         }
     }
+        protected void addNames()
+    {
+        // try to access the DB to get all the names of the played games.
+        try
+        {
+            String url = "jdbc:mysql://localhost:3306/southwind";
+            String user = "non";
+            String password = "Java123$";
+            String query1 = "select * from names";
+            Connection con = DriverManager.getConnection(url, user, password);
+            Statement st1 = con.createStatement();
+            ResultSet rs1 = st1.executeQuery(query1);
+            
+           
+            
+            while(rs1.next())
+                {
+//                   retval = rs1.getInt("gameCount");
+                    fplayers.add(rs1.getString("fplayer"));
+                    splayers.add(rs1.getString("splayer"));
+   
+                }
+            
+            st1.close();
+            con.close();
+            
+        }
+        catch(SQLException ex)
+        {
+                ex.printStackTrace();
+                
+        }
+    }
+
 }

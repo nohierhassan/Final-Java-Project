@@ -1,3 +1,4 @@
+ 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -84,7 +85,7 @@ public class GameBoard {
             @Override
             public void handle(ActionEvent arg0) {
                 
-                addInDB(num);
+                addGames(num);
                 
                 String winnerString = "";
                 if (button.getText().isEmpty()) {
@@ -144,7 +145,7 @@ public class GameBoard {
             return false;
        
     }
-    private boolean addInDB(int num)
+    private boolean addGames(int num)
     {
         try
         {
@@ -153,10 +154,9 @@ public class GameBoard {
             String password = "Java123$";
             
             Connection con = DriverManager.getConnection(url, user, password);
-            PreparedStatement stmt =con.prepareStatement("insert into test (num,fname,gamecount) values (?,?,?)");
+            PreparedStatement stmt =con.prepareStatement("insert into games (num,gameorder) values (?,?)");
             stmt.setInt(1, num);
-            stmt.setString(2,Welcome.firstPlayerName);
-            stmt.setInt(3,PopUp.gameNumber);
+            stmt.setInt(2,PopUp.gameNumber);
             
             
             int rs = stmt.executeUpdate();

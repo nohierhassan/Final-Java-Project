@@ -5,6 +5,10 @@
  */
 package javafxapplication10;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -72,6 +76,7 @@ public abstract class Welcome {
                 }
                 firstPlayerName =  firstPlayerTxt.getText();
                 secondPlayerName =  secondPlayerTxt.getText();
+                addInDB();
 
                 new GameBoard(primaryStage);
             }
@@ -91,6 +96,34 @@ public abstract class Welcome {
                 errorLabel.setText("");
             }
         });
+        
+    }
+       private static void addInDB()
+    {
+        try
+        {
+             String url = "jdbc:mysql://localhost:3306/southwind";
+            String user = "non";
+            String password = "Java123$";
+            
+            Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement stmt =con.prepareStatement("insert into names (gameorder,fplayer,splayer) values (?,?,?)");
+            stmt.setInt(1,PopUp.gameNumber);
+            stmt.setString(2,Welcome.firstPlayerName);
+            stmt.setString(3,Welcome.secondPlayerName);
+            
+            
+            
+            int rs = stmt.executeUpdate();
+            con.close();
+            
+        }
+        catch(SQLException ex)
+        {
+                ex.printStackTrace();
+                
+        }
+      
     }
 
 }

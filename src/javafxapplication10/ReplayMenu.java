@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -18,15 +21,20 @@ public  class ReplayMenu extends AnchorPane {
 
     protected final MenuBar menuBar;
     protected final Menu replayMenu;
-    protected final MenuItem item0;
+    ArrayList<MenuItem> games = new ArrayList<>(); 
+     ArrayList<String> names = new ArrayList<>(); 
+    //protected final MenuItem item0;
     protected final Menu exitMenu;
+    Stage stage;
     protected Scene scene;
     public ReplayMenu(Stage stage) {
-       
+       this.stage = stage;
         System.out.println(checkDB());
+        setOptions(checkDB());
         menuBar = new MenuBar();
         replayMenu = new Menu();
-        item0 = new MenuItem();
+        addOptions(replayMenu);
+        //item0 = new MenuItem();
         exitMenu = new Menu();
 
         setId("AnchorPane");
@@ -40,22 +48,22 @@ public  class ReplayMenu extends AnchorPane {
         replayMenu.setMnemonicParsing(false);
         replayMenu.setText("Replay ");
 
-        item0.setId("item0");
-        item0.setMnemonicParsing(false);
-        item0.setText("None");
-        item0.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                new replayGame((stage));
-                
-            }
-        });
+//        item0.setId("item0");
+//        item0.setMnemonicParsing(false);
+//        item0.setText("None");
+//        item0.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent t) {
+//                new replayGame((stage));
+//                
+//            }
+//        });
 
         exitMenu.setId("exitMenu");
         exitMenu.setMnemonicParsing(false);
         exitMenu.setText("Exit");
 
-        replayMenu.getItems().add(item0);
+        //replayMenu.getItems().add(item0);
         menuBar.getMenus().add(replayMenu);
         menuBar.getMenus().add(exitMenu);
         getChildren().add(menuBar);
@@ -73,20 +81,23 @@ public  class ReplayMenu extends AnchorPane {
             String url = "jdbc:mysql://localhost:3306/southwind";
             String user = "non";
             String password = "Java123$";
-            String query = "select count(distinct(gamecount)) as gameCount from test";
+            String query1 = "select count(distinct(gamecount)) as gameCount from test";
             Connection con = DriverManager.getConnection(url, user, password);
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
+            Statement st1 = con.createStatement();
+            ResultSet rs1 = st1.executeQuery(query1);
+//            String query2 = "select count(distinct(fname)) from test";
+//            Statement st2 = con.createStatement();
+//            ResultSet rs2 = st2.executeQuery(query2);
            
             
-            while(rs.next())
+            while(rs1.next())
                 {
-                   retval = rs.getInt("gameCount");
-                
-               
+                   retval = rs1.getInt("gameCount");
+            
+                 
                 }
             
-            st.close();
+            st1.close();
             con.close();
             
         }
@@ -101,5 +112,29 @@ public  class ReplayMenu extends AnchorPane {
              return retval;
          }
         
+    }
+    protected void setOptions(int num)
+    {
+        for(int i = 0; i< num; i++)
+        {
+           games.add(new MenuItem());
+        }
+    }
+     protected void addOptions(Menu menu)
+    {
+        for(MenuItem item : games)
+        {
+           item.setId("item0");
+           item.setMnemonicParsing(false);
+           item.setText("None");
+           item.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                 new replayGame((stage));
+                
+            }
+        });
+           menu.getItems().add(item);
+        }
     }
 }
